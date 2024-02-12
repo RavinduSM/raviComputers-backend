@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 import asyncHandler from "./asyncHandler.js";
 
 // Check if the user is authenticated 
-export const isuth = asyncHandler(async (req, res, next) => {
+export const isAuth = asyncHandler(async (req, res, next) => {
     let token;
 
     // Read JWT from the 'jwt' cookie
