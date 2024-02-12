@@ -3,8 +3,8 @@ import { isAuth, isuthAdmin } from "../middleware/authMiddleware.js";
 import { createCategory, listCategory, readCategory } from "../controllers/category.controller.js";
 const router = express.Router();
 
-router.route("/", isAuth, isuthAdmin).post(createCategory);
-router.route("/categories").get(listCategory);
-router.route("/:id").get(readCategory);
+router.post("/", isAuth, isuthAdmin, createCategory);
+router.get("/categories", listCategory);
+router.get("/:id", readCategory);
 
 export default router;

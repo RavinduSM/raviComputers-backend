@@ -3,7 +3,8 @@ import { mongoose } from 'mongoose';
 import dotenv from 'dotenv';
 
 import authRouter from './routers/auth.routes.js';
-import categoryRouter from './routers/category.routes.js'
+import categoryRouter from './routers/category.routes.js';
+import productRouter from './routers/product.routes.js';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/product', productRouter);
 
 const port = process.env.port || 8000;
 app.listen(port, () => {
