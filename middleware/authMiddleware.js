@@ -2,8 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import asyncHandler from "./asyncHandler.js";
 
-// Check if the user is authenticated 
-export const isAuth = asyncHandler(async (req, res, next) => {
+const authenticate = asyncHandler(async (req, res, next) => {
     let token;
 
     // Read JWT from the 'jwt' cookie
@@ -11,7 +10,7 @@ export const isAuth = asyncHandler(async (req, res, next) => {
 
     if (token) {
         try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const decoded = jwt.verify(token, process.env.JWT_SECRET|| "Secret98") ;
             req.user = await User.findById(decoded.userId).select("-password");
             next();
         } catch (error) {
@@ -20,16 +19,16 @@ export const isAuth = asyncHandler(async (req, res, next) => {
         }
     } else {
         res.status(401);
-        throw new Error("Not authorized, no token");
+        throw new Error("Not authorized, no token.");
     }
 });
 
-// Check if the user is admin
-export const isuthAdmin = (req, res, next) => {
+const authorizeAdmin = (req, res, next) => {
     if (req.user && req.user.isAdmin) {
         next();
     } else {
-        res.status(401).send("Not authorized as an admin");
+        res.status(401).send("Not authorized as an admin.");
     }
 };
 
+export { authenticate, authorizeAdmin };

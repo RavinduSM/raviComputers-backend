@@ -1,7 +1,8 @@
 import User from '../models/userModel.js'
+import express from 'express';
 import bcryptjs from 'bcryptjs';
 import asyncHandler from '../middleware/asyncHandler.js';
-import createToken from '../utils/createToken.js'
+import createToken from '../utils/createToken.js';
 
 export const signup = async (req, res) => {
     const { username, email, password } = req.body;
@@ -42,3 +43,12 @@ export const signin = asyncHandler(async (req, res) => {
         res.status(401).json({ message: "User not found" });
     }
 });
+
+export const logoutCurrentUser = asyncHandler(async (req, res) => {
+    res.cookie("jwt", "", {
+      httyOnly: true,
+      expires: new Date(0),
+    });
+  
+    res.status(200).json({ message: "Logged out successfully" });
+  });
